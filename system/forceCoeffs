@@ -13,19 +13,19 @@ forceCoeffs1
     libs            ("libforces.so");
 
     writeControl    timeStep;
-    timeInterval    1;
+    timeInterval    0.1;
 
     log             yes;
 
-    patches         (motorBikeGroup);
+    patches         (airfoil);
     rho             rhoInf;      // Indicates incompressible
     rhoInf          1;           // Redundant for incompressible
     liftDir         (0 0 1);
     dragDir         (1 0 0);
-    CofR            (0.72 0 0);  // Axle midpoint on ground
+    CofR            (12.5 0.45 1.143);  // Axle midpoint on ground
     pitchAxis       (0 1 0);
     magUInf         20;
-    lRef            1.42;        // Wheelbase length
+    lRef            0.25;        // Wheelbase length
     Aref            0.75;        // Estimated
     /*
     binData

@@ -13,9 +13,9 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     simpleFoam;
+application     foamRun;
 
-solver          simpleFoam;
+solver          IcoFoam;
 
 startFrom       latestTime;
 
@@ -23,13 +23,13 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         1E-4;
+endTime         10.0;
 
-deltaT          0.1;
+deltaT          0.01;
 
 writeControl    adjustableRunTime;
 
-writeInterval   1E-4;
+writeInterval   0.1;
 
 purgeWrite      0;
 

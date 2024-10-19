@@ -25,7 +25,7 @@ boundaryField
     inlet
     {
         type            fixedValue;
-        value           uniform (30 0 0);  // Set inlet velocity (e.g., 30 m/s in x-direction)
+        value           uniform (50 0 0);  // Set inlet velocity (e.g., 30 m/s in x-direction)
     }
 
     outlet
