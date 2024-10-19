@@ -9,30 +9,38 @@ FoamFile
 {
     format      ascii;
     class       volScalarField;
-    object      mut;
+    object      nut;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 dimensions      [0 2 -1 0 0 0 0];
 
-internalField   uniform 0;
+internalField   uniform 1.827e-05; // Dynamic viscosity in m^2/s
 
 boundaryField
 {
     freestream
     {
         type            calculated;
-        value           uniform 0;
+        value           uniform 1.827e-05; // Use dynamic viscosity for freestream
     }
 
     wall
     {
-        type            nutkWallFunction;
-        type            nutkWallFunction;
-        value           uniform 0;
+        type            nutkWallFunction; // Use a wall function for the wall boundary
+        value           uniform 0; // Default value, will be computed based on wall function
     }
 
-    #includeEtc "caseDicts/setConstraintTypes"
+    // Add any other boundary conditions for your case
+    inlet
+    {
+	type            calculated;
+	value           uniform 1.827e-05; // Use the same dynamic viscosity here
+    }
+    outlet
+    {
+   	type		    calculated;
+   	value	    uniform 1.827e-05;
+    }
 }
-
 // ************************************************************************* //

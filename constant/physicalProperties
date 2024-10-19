@@ -43,4 +43,7 @@ mixture // air at room temperature (293 K)
     }
 }
 
+// Viscosity model
+viscosityModel Newtonian;  
+nu 1.56e-05; // Kinematic viscosity for air at 293 K (m^2/s)
 // ************************************************************************* //

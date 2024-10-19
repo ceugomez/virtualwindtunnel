@@ -33,7 +33,16 @@ boundaryField
         type            omegaWallFunction;
         value           uniform $omegaInlet;
     }
-
+    inlet
+    {
+	type		calculated;
+	value		uniform $omegaInlet;
+    }
+    outlet
+    {
+	type		calculated;
+	value		uniform $omegaInlet;
+    }
     #includeEtc "caseDicts/setConstraintTypes"
 }
 

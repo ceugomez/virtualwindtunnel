@@ -1,48 +1,52 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Version:  12
-     \\/     M anipulation  |
+|=========                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+|  \\    /   O peration     | Website:  https://openfoam.org
+|   \\  /    A nd           |
+|    \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
+
 FoamFile
 {
+    version     2.0;
     format      ascii;
     class       volScalarField;
+    location    "0";
     object      p;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-pOut            1e5;
+dimensions      [1 -1 -2 0 0 0 0];  // Pressure units (Pa)
 
-dimensions      [1 -1 -2 0 0 0 0];
-
-internalField   uniform $pOut;
+internalField   uniform 0;  // Initial pressure field, adjust based on your case
 
 boundaryField
 {
+    inlet
+    {
+        type            zeroGradient;  // No pressure gradient at inlet
+    }
+
     outlet
     {
-        type            waveTransmissive;
-        field           p;
-        gamma           1.4;
-        fieldInf        $pOut;
-        lInf            5;
-        value           uniform $pOut;
+        type            fixedValue;    // Set pressure to atmospheric (or 0)
+        value           uniform 0;
     }
 
-    freestream
+    walls
     {
-        type            freestreamPressure;
-        freestreamValue uniform $pOut;
+        type            zeroGradient;  // No pressure gradient at solid walls
     }
 
-    wall
+    symmetryPlane
     {
-        type            zeroGradient;
+        type            symmetryPlane;  // If applicable, symmetry condition
     }
 
-    #includeEtc "caseDicts/setConstraintTypes"
+    airfoil
+    {
+        type            zeroGradient;  // No pressure gradient on the airfoil surface
+    }
 }
 
 // ************************************************************************* //

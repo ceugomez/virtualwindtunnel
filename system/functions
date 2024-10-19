@@ -8,42 +8,13 @@
 FoamFile
 {
     format      ascii;
-    class       volScalarField;
-    object      k;
+    class       dictionary;
+    object      functions;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-kInlet          0.01;
-
-dimensions      [0 2 -2 0 0 0 0];
-
-internalField   uniform $kInlet;
-
-boundaryField
-{
-    freestream
-    {
-        type            fixedValue;
-        value           uniform 0.0;
-    }
-
-    wall
-    {
-        type            fixedValue;
-        value           uniform 0.0;
-    }
-    inlet 
-    {
-	type		fixedValue;
-	value		uniform 0.0;
-    }
-    outlet
-    {
-	type		fixedValue;
-	value		uniform 0.0;
-    }
-
-    #includeEtc "caseDicts/setConstraintTypes"
-}
+#include "cutPlane"
+#include "streamlines"
+#include "forceCoeffs"
 
 // ************************************************************************* //
