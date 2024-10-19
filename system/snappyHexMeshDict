@@ -1,0 +1,137 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Which of the steps to run
+castellatedMesh true;
+snap            true;
+addLayers       false;
+
+// Geometry. Definition of all surfaces.
+geometry
+{
+    airfoil
+    {
+        type triSurfaceMesh;
+        file "airfoil.stl";  // Adjust path if necessary
+    }
+
+    refinementBox
+    {
+        type searchableBox;
+        min (-0.1 -0.1 0.0);  // Adjust box to slightly contain the airfoil
+        max ( 0.8  0.9 2.4);
+    }
+}
+
+// Settings for castellated mesh generation
+castellatedMeshControls
+{
+    maxLocalCells 100000;
+    maxGlobalCells 7000000;
+    minRefinementCells 10;
+    maxLoadUnbalance 0.10;
+    nCellsBetweenLevels 3;
+
+    features
+    (
+        // Optionally include feature edges if needed
+    );
+
+    // Surface based refinement
+    refinementSurfaces
+    {
+        airfoil
+        {
+            level (4 5);  // Moderate refinement around the airfoil
+        }
+    }
+
+    resolveFeatureAngle 60;
+
+    refinementRegions
+    {
+        refinementBox
+        {
+            mode    inside;
+            level   3;  // Slightly refined box around airfoil
+        }
+    }
+
+    // Set inside point to be within the domain but outside the airfoil geometry
+    insidePoint (1 0.45 1.14);  // Adjust based on the position of the airfoil
+
+    allowFreeStandingZoneFaces false;
+}
+
+// Settings for the snapping.
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 2.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+}
+
+// Layer addition settings (disabled, but included for reference)
+addLayersControls
+{
+    relativeSizes true;
+    layers
+    {
+        "(airfoil).*"
+        {
+            nSurfaceLayers 1;
+        }
+    }
+    expansionRatio 1.0;
+    finalLayerThickness 0.3;
+    minThickness 0.1;
+    nGrow 0;
+    featureAngle 100;
+    slipFeatureAngle 30;
+    nRelaxIter 3;
+    nSmoothSurfaceNormals 1;
+    nSmoothNormals 3;
+    nSmoothThickness 2;
+    maxFaceThicknessRatio 0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedianAxisAngle 90;
+    nBufferCellsNoExtrude 0;
+    nLayerIter 50;
+}
+
+// Mesh quality settings
+meshQualityControls
+{
+    maxNonOrtho 65;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave 80;
+    minFlatness 0.5;
+    minVol -1e30;
+    minTetQuality 1e-30;
+    minTwist 0.02;
+    minDeterminant 0.001;
+    minFaceWeight 0.02;
+    minVolRatio 0.01;
+
+    nSmoothScale 4;
+    errorReduction 0.75;
+}
+
+// Merge tolerance
+mergeTolerance 1e-6;
+
+// ************************************************************************* //

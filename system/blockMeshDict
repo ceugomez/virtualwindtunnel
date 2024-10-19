@@ -1,0 +1,66 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+convertToMeters 1.0;
+
+vertices
+(
+    (0 0 0)              // Vertex 0: inlet right bottom (x: downstream, y: out of page, z: up)
+    (0 0.9144 0)	 // Vertex 1: inlet left bottom
+    (0 0.9144 2.286)     // Vertex 2: inlet left top
+    (0 0 2.286)		 // Vertex 3: inlet right top
+    (25 0 0)		 // Vertex 4: outlet right bottom 
+    (25 0.9144 0)	 // Vertex 5: outlet left bottom
+    (25 0.9144 2.286)	 // Vertex 6: outlet left top 
+    (25 0 2.286)	 // Vertex 7: outlet right top
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (100 10 10) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 1 2 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (4 5 6 7)
+        );
+    }
+    walls
+    {
+        type wall;
+        faces
+        (
+            (0 1 5 4)
+            (1 2 6 5)
+            (2 3 7 6)
+            (0 3 7 4)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
